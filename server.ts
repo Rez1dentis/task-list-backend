@@ -1,11 +1,10 @@
-import dotenv from 'dotenv';
 import routes from './src/routes';
 
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 
-dotenv.config();
+require('dotenv').config();
 
 const app = express();
 
@@ -16,6 +15,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', routes);
+
+app.get('/', (req, res) => {
+  res.send('Express server is working!');
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
