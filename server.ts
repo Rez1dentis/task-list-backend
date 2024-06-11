@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import routes from './routes';
+import routes from './src/routes';
 
 const express = require('express');
 const morgan = require('morgan');
