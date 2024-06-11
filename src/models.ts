@@ -13,8 +13,8 @@ const sequelize = new Sequelize(
   },
 );
 
-class Task extends Model {
-  public id!: number;
+class CTask extends Model {
+  public id!: string;
   public name!: string;
   public isCompleted!: boolean;
   public date!: string;
@@ -23,11 +23,11 @@ class Task extends Model {
   public readonly updatedAt!: Date;
 }
 
-Task.init(
+CTask.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      allowNull: false,
       primaryKey: true,
     },
     name: {
@@ -49,6 +49,6 @@ Task.init(
   },
 );
 
-sequelize.sync().then(() => console.log('Database & tables created!'));
+sequelize.sync().then(() => console.log('База данных и таблица созданы!'));
 
-export { Task };
+export { CTask };

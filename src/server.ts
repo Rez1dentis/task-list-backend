@@ -1,16 +1,19 @@
-import express from 'express';
-import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import routes from './routes';
+
+const express = require('express');
+const cors = require('cors');
 
 dotenv.config();
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use('/api', routes);
-
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api', routes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

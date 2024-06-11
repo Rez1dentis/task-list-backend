@@ -1,39 +1,53 @@
 import { Request, Response } from 'express';
-import { Task } from './models';
+import { CTask } from './models';
 
 export const getTasks = async (req: Request, res: Response) => {
-  const tasks = await Task.findAll();
-  res.json(tasks);
+  const tasks = await CTask.findAll();
+
+  res.json(tasks.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
 };
 
 export const createTask = async (req: Request, res: Response) => {
   const { id, name, date } = req.body;
-  const task = await Task.create({ id, name, date, isCompleted: false });
+
+  const task = await CTask.create({ id, name, date, isCompleted: false });
+
   res.json(task);
 };
 
 export const updateTask = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, isCompleted, date } = req.body;
-  const task = await Task.findByPk(id);
-  if (task) {
-    task.name = name;
-    task.isCompleted = isCompleted;
-    task.date = date;
+
+  try {
+    const task = await CTask.findByPk(id);
+
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    task.name = name !== undefined ? name : task.name;
+    task.isCompleted = isCompleted !== undefined ? isCompleted : task.isCompleted;
+    task.date = date !== undefined ? date : task.date;
+
     await task.save();
+
     res.json(task);
-  } else {
-    res.status(404).send('Task not found');
+  } catch (error) {
+    console.error('Error updating task:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
 export const deleteTask = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const task = await Task.findByPk(id);
+
+  const task = await CTask.findByPk(id);
+
   if (task) {
     await task.destroy();
-    res.json({ message: 'Task deleted' });
+    res.json({ message: 'Задача удалена' });
   } else {
-    res.status(404).send('Task not found');
+    res.status(404).send('Задача не найдена');
   }
 };
