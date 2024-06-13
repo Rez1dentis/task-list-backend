@@ -34,15 +34,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // });
 // export default app;
 const express_1 = __importDefault(require("express"));
+const morgan_1 = __importDefault(require("morgan"));
+const cors_1 = __importDefault(require("cors"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8080;
+// Мидлвары
+app.use((0, cors_1.default)());
+app.use((0, morgan_1.default)('dev'));
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 app.get('/', (_req, res) => {
     return res.send('Express Typescript on Vercel');
-});
-app.get('/ping', (_req, res) => {
-    return res.send('pong 🏓');
 });
 app.listen(port, () => {
     return console.log(`Server is listening on ${port}`);
 });
+exports.default = app;
 //# sourceMappingURL=index.js.map
