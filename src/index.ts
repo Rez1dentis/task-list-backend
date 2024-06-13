@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Основной маршрут
-app.get('/api', (req: Request, res: Response) => {
-  res.status(201).json({ message: 'Welcome to TaskList App!' });
+app.get('/', (_req: Request, res: Response) => {
+  return res.send('Express Typescript on Vercel');
 });
 
 // Маршруты
