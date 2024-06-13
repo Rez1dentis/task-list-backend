@@ -1,26 +1,38 @@
+import { Request, Response } from 'express';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import routes from './routes';
 import dotenv from 'dotenv';
+import taskRoutes from '../src/taskRoutes';
 
 dotenv.config();
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 
+// Мидлвары
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.send('Hello, Vercel!');
+// Основной маршрут
+app.get('/api', (req: Request, res: Response) => {
+  res.status(201).json({ message: 'Welcome to TaskList App!' });
 });
 
-app.use('/api', routes);
+// Маршруты
+app.use('/api/taskListApp', taskRoutes);
 
+// Обработка ошибок
+app.use((err: Error, req: Request, res: Response, next: Function) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Запуск сервера
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+export default app;
