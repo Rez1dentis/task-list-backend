@@ -37,6 +37,7 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const taskRoutes_1 = __importDefault(require("../src/taskRoutes")); // Убедитесь, что путь правильный
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8080;
@@ -48,6 +49,8 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.get('/', (_req, res) => {
     return res.send('Express Typescript on Vercel');
 });
+// Маршруты
+app.use('/api/taskListApp', taskRoutes_1.default);
 app.listen(port, () => {
     return console.log(`Server is listening on ${port}`);
 });

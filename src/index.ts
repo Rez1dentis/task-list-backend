@@ -41,6 +41,7 @@ import express, { Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import taskRoutes from '../src/taskRoutes'; // Убедитесь, что путь правильный
 
 dotenv.config();
 
@@ -56,6 +57,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (_req: Request, res: Response) => {
   return res.send('Express Typescript on Vercel');
 });
+
+// Маршруты
+app.use('/api/taskListApp', taskRoutes);
 
 app.listen(port, () => {
   return console.log(`Server is listening on ${port}`);
