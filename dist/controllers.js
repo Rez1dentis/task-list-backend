@@ -10,15 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTask = exports.updateTask = exports.createTask = exports.getTasks = void 0;
-const models_1 = require("./models");
+const database_1 = require("./config/database");
 const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const tasks = yield models_1.CTask.findAll();
+    const tasks = yield database_1.CTask.findAll();
     res.json(tasks.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
 });
 exports.getTasks = getTasks;
 const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id, name, date } = req.body;
-    const task = yield models_1.CTask.create({ id, name, date, isCompleted: false });
+    const task = yield database_1.CTask.create({ id, name, date, isCompleted: false });
     res.json(task);
 });
 exports.createTask = createTask;
@@ -26,7 +26,7 @@ const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const { id } = req.params;
     const { name, isCompleted, date } = req.body;
     try {
-        const task = yield models_1.CTask.findByPk(id);
+        const task = yield database_1.CTask.findByPk(id);
         if (!task) {
             return res.status(404).json({ message: 'Task not found' });
         }
@@ -44,7 +44,7 @@ const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.updateTask = updateTask;
 const deleteTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const task = yield models_1.CTask.findByPk(id);
+    const task = yield database_1.CTask.findByPk(id);
     if (task) {
         yield task.destroy();
         res.json({ message: 'Задача удалена' });

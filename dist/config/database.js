@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CTask = void 0;
+exports.sequelize = exports.CTask = void 0;
 const sequelize_1 = require("sequelize");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -11,6 +11,7 @@ const sequelize = new sequelize_1.Sequelize(process.env.DB_NAME, process.env.DB_
     host: process.env.DB_HOST,
     dialect: 'postgres',
 });
+exports.sequelize = sequelize;
 class CTask extends sequelize_1.Model {
 }
 exports.CTask = CTask;
@@ -37,4 +38,4 @@ CTask.init({
     sequelize,
 });
 sequelize.sync().then(() => console.log('База данных и таблица созданы!'));
-//# sourceMappingURL=models.js.map
+//# sourceMappingURL=database.js.map

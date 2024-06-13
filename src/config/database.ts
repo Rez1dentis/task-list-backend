@@ -51,4 +51,4 @@ CTask.init(
 
 sequelize.sync().then(() => console.log('База данных и таблица созданы!'));
 
-export { CTask };
+export { CTask, sequelize };
