@@ -2,8 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import taskRoutes from '../src/taskRoutes';
-import { sequelize } from '../src/config/database';
+import taskRoutes from './src/routes/taskRoutes';
 
 dotenv.config();
 
@@ -15,20 +14,6 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Проверка подключения к базе данных
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection to the database has been established successfully.');
-  })
-  .catch((err: Error) => {
-    console.error('Unable to connect to the database:', err);
-  });
-
-app.get('/', (_req: Request, res: Response) => {
-  return res.send('Express Typescript on Vercel');
-});
 
 // Логирование запросов
 app.use((req: Request, res: Response, next: NextFunction) => {

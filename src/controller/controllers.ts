@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CTask } from './config/database';
+import { CTask } from '../database/database';
 
 export const getTasks = async (req: Request, res: Response) => {
   const tasks = await CTask.findAll();
